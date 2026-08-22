@@ -20,14 +20,17 @@ def driver():
     Connects to the Appium server using XCUITest automation for bundle com.techshop.ios.
     """
     appium_server_url = os.environ.get("APPIUM_SERVER", "http://127.0.0.1:4723")
-    device_name = os.environ.get("IOS_DEVICE", "iPhone 17 Pro")
-    platform_version = os.environ.get("IOS_VERSION", "26.5")
+    device_name = os.environ.get("IOS_DEVICE", "iPhone 15")
+    platform_version = os.environ.get("IOS_VERSION")
+    device_udid = os.environ.get("DEVICE_ID")
 
     options = XCUITestOptions()
     options.platform_name = "iOS"
     options.automation_name = "XCUITest"
     options.bundle_id = "com.techshop.ios"
     options.device_name = device_name
+    if device_udid:
+        options.udid = device_udid
     if platform_version:
         options.platform_version = platform_version
 

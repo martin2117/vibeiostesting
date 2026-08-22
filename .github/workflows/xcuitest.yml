@@ -1,0 +1,63 @@
+name: XCUITest Tests
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  xcuitest:
+    name: Run XCUITest Suite
+    runs-on: macos-14
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: |
+          brew install xcodegen
+
+      - name: Boot iPhone Simulator
+        run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool true
+          echo "Finding available iPhone simulator..."
+          DEVICE_ID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.isAvailable and (.name | contains("iPhone")))][0].udid')
+          if [ -z "$DEVICE_ID" ] || [ "$DEVICE_ID" = "null" ]; then
+            echo "No available iPhone simulator found, attempting to create one..."
+            DEVICE_ID=$(xcrun simctl create "iPhone 15" "com.apple.CoreSimulator.SimDeviceType.iPhone-15")
+          fi
+          echo "Booting device ID: $DEVICE_ID"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
+          echo "Simulator $DEVICE_ID booted successfully."
+
+      - name: Generate Xcode Project
+        working-directory: techshop/swiftui-fixed
+        run: |
+          xcodegen generate
+
+      - name: Run XCUITest Suite
+        working-directory: techshop/swiftui-fixed
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: |
+          xcodebuild test \
+            -project TechShop.xcodeproj \
+            -scheme TechShop \
+            -destination "platform=iOS Simulator,id=$DEVICE_ID" \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            TEST_EMAIL="$TEST_EMAIL" \
+            TEST_PASSWORD="$TEST_PASSWORD"
+
+      - name: Upload Test Results (.xcresult)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcuitest-results
+          path: techshop/swiftui-fixed/TestResults.xcresult

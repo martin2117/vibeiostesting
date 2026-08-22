@@ -1,0 +1,86 @@
+name: Appium Tests
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  appium:
+    name: Run Appium Suite
+    runs-on: macos-14
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: appium/requirements.txt
+
+      - name: Boot iPhone Simulator
+        run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool true
+          echo "Finding available iPhone simulator..."
+          DEVICE_ID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.isAvailable and (.name | contains("iPhone")))][0].udid')
+          if [ -z "$DEVICE_ID" ] || [ "$DEVICE_ID" = "null" ]; then
+            echo "No available iPhone simulator found, attempting to create one..."
+            DEVICE_ID=$(xcrun simctl create "iPhone 15" "com.apple.CoreSimulator.SimDeviceType.iPhone-15")
+          fi
+          echo "Booting device ID: $DEVICE_ID"
+          xcrun simctl boot "$DEVICE_ID" || true
+          xcrun simctl bootstatus "$DEVICE_ID" -b
+          echo "DEVICE_ID=$DEVICE_ID" >> $GITHUB_ENV
+          echo "Simulator $DEVICE_ID booted successfully."
+
+      - name: Install Appium and XCUITest Driver
+        run: |
+          npm install -g appium
+          appium driver install xcuitest
+
+      - name: Install Python Dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r appium/requirements.txt pytest-html
+
+      - name: Build & Install TechShop App (React Native Fixed)
+        working-directory: techshop/reactnative-fixed
+        run: |
+          npm install
+          npx expo run:ios --device "$DEVICE_ID" --configuration Release --no-bundler
+          xcrun simctl get_app_container "$DEVICE_ID" com.techshop.ios
+
+      - name: Start Appium Server
+        run: |
+          appium --log appium.log &
+          timeout 30s bash -c 'until curl -s http://127.0.0.1:4723/status; do sleep 1; done'
+          echo "Appium server is up and listening."
+
+      - name: Run Appium Pytest Suite
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+          DEVICE_ID: ${{ env.DEVICE_ID }}
+        run: |
+          pytest appium/ -v --junitxml=appium-report.xml --html=appium-report.html --self-contained-html
+
+      - name: Upload Test Results & Logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appium-test-results
+          path: |
+            appium-report.xml
+            appium-report.html
+            appium.log
+            test-results/
