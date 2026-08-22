@@ -38,10 +38,11 @@ differ, and why our accessibility-id locators survive the difference anyway.
 *Used in: Section 6, Clip 4*
 
 ```
-Look at the login flow from Section 5. For each locator, tell me: is it stable, or would
-it break if the UI text or layout changed? Is each assertion meaningful, or could it pass
-for the wrong reason (a false green)? Rewrite any weak locator or assertion and explain
-the fix.
+Following skills/test-authoring.md, write a simple Maestro login flow for TechShop (a
+reusable login subflow plus a happy-path flow). Then read it back to me critically: for
+each locator, is it stable, or would it break if the UI text or layout changed? Is each
+assertion meaningful, or could it pass for the wrong reason (a false green)? Rewrite any
+weak locator or assertion and explain the fix.
 ```
 
 **Expected:** you can now review any locator the agent produces — the skill you use for

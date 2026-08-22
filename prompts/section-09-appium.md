@@ -2,84 +2,86 @@
 
 > 📖 **Guide:** [Appium suite](../docs/s09-appium.md) · builds into `appium/`
 
-You build the Appium suite (Python + pytest, Page Object Model) yourself, using the same
-test matrix and the **test-authoring skill**. Appium reads element attributes, so here you
-finally catch **BUG-001** (password not masked) that Maestro could not.
+You build the Appium suite (Python + pytest, Page Object Model) from the same **test
+matrix** (`test-cases.md`) and the **test-authoring skill**. Appium reads element
+attributes, so it picks up the matrix cases Maestro had to skip (e.g. **BUG-001**, password
+not masked). You run and triage the suite in Section 12.
 
 ## Course reference
 | Prompt | Used in clip |
 |--------|-------------|
-| Prompt 1 — Driver setup + login page/test | **9, Clip 2** |
-| Prompt 2 — Catch BUG-001 via attribute | **9, Clip 2** |
-| Prompt 3 — Cart page + tests | **9, Clip 3** |
-| Prompt 4 — Checkout page + tests | **9, Clip 3** |
+| Prompt 1 — Scaffold + login tests | **9, Clip 2** |
+| Prompt 2 — The attribute-only cases | **9, Clip 2** |
+| Prompt 3 — Cart & catalog tests | **9, Clip 3** |
+| Prompt 4 — Checkout tests | **9, Clip 3** |
 | Prompt 5 — Same caps, two apps | **9, Clip 4** |
 
 ---
 
-## Prompt 1: Driver setup + login page and test
+## Prompt 1: Scaffold the suite + login tests
 *Used in: Section 9, Clip 2*
 
 ```
-Following skills/test-authoring.md, scaffold an Appium suite under appium/ for TechShop
-iOS (bundle id com.techshop.ios, XCUITest automation):
+First make sure the BROKEN build is installed on the Simulator — com.techshop.ios from
+techshop/reactnative-broken or techshop/swiftui-broken (the version with the planted bugs),
+not the fixed build.
 
-- conftest.py — a function-scoped driver fixture that launches the app fresh each test,
-  reading TEST_EMAIL/TEST_PASSWORD from the environment. Add a pytest.ini and
-  requirements.txt.
-- pages/base_page.py — helpers: by_id (accessibility id), exists, text_visible
-  (iOS predicate), type_into.
-- pages/login_page.py + pages/catalog_page.py.
-- tests/test_login.py — valid login reaches the catalog; BUG-002 empty rejected;
-  BUG-003 wrong credentials rejected. Locate the login button by the label "Log In".
+Then, following skills/test-authoring.md, scaffold an Appium suite under appium/ for TechShop
+iOS (bundle id com.techshop.ios, XCUITest automation): a conftest.py driver fixture (fresh
+launch per test, creds from env), pytest.ini, requirements.txt, a pages/base_page.py with
+locate/assert helpers, and a flows.py for shared login/add-to-cart.
 
-Keep shared flows (login, add-to-cart) in a flows.py helper, not copy-pasted.
+Then, from the LOGIN cases in test-cases.md, create pages/login_page.py,
+pages/catalog_page.py, and tests/test_login.py — one test per login case in the matrix,
+no more and no less. Locate the login button by the label "Log In".
+
+List the tests you created and the test-case ID each covers.
 ```
 
-**Expected:** a runnable skeleton. Start Appium (`appium`) and run `pytest -v`.
+**Expected:** a runnable skeleton plus the login tests. Start Appium (`appium`) and run
+`pytest -v`.
 
 ---
 
-## Prompt 2: Catch BUG-001 with an attribute assertion
+## Prompt 2: The attribute-only cases (that Maestro skipped)
 *Used in: Section 9, Clip 2*
 
 ```
-Add tests to appium/tests/test_login.py:
-- test_password_field_is_secure — BUG-001: assert the password field's element type is
-  "XCUIElementTypeSecureTextField" (a plaintext field would be XCUIElementTypeTextField).
-- test_login_button_has_stable_id — BUG-016: assert an element with accessibility id
-  "login-submit" exists.
-Explain why Maestro could not make the first assertion but Appium can.
+The matrix marks some cases as needing element ATTRIBUTES — the ones Maestro had to defer.
+Add those to appium/tests/test_login.py, following test-cases.md: the secure-entry case
+(assert the password field's element type is XCUIElementTypeSecureTextField, not
+XCUIElementTypeTextField) and the login-button-identifier case. Explain why Maestro could
+not assert these but Appium can.
 ```
 
-**Expected:** the "framework can see what it can see" lesson, made concrete.
+**Expected:** the "framework can see what it can see" lesson, made concrete — Appium
+covers the attribute cases the matrix assigned to it.
 
 ---
 
-## Prompt 3: Cart page object + tests
+## Prompt 3: Cart & catalog tests
 *Used in: Section 9, Clip 3*
 
 ```
-Following the skill, add pages/cart_page.py (quantity, increment/decrement, order total,
-apply discount, proceed) and tests/test_cart.py:
-- BUG-005 quantity never below 1; BUG-006 total updates on quantity change (60 -> 120);
-  BUG-004 SAVE10 on $60 -> $54.
-Add tests/test_general.py: BUG-015 no Cart tab before auth; BUG-014 title is not "Untitled".
-Reuse the add-item-and-open-cart flow from flows.py.
+Following the skill and the CART and CATALOG cases in test-cases.md, add pages/cart_page.py,
+tests/test_cart.py, and tests/test_general.py — one test per matrix case. Reuse the
+add-item-and-open-cart flow from flows.py. Read the matrix for what each case asserts.
+
+List the tests you created and the test-case ID each covers.
 ```
 
 ---
 
-## Prompt 4: Checkout page object + tests
+## Prompt 4: Checkout tests
 *Used in: Section 9, Clip 3*
 
 ```
-Add pages/checkout_page.py and tests/test_checkout.py:
-- test_proceed_opens_checkout — BUG-011 (catches the blocker on broken).
-- test_empty_checkout_rejected — BUG-012 (fixed build).
-- test_confirmation_has_order_reference — BUG-013 (fixed build): fill valid data, submit,
-  assert "Order Confirmed" and the confirmation-order-ref element.
-Note in comments which tests only run on the fixed build and why.
+Following the skill and the CHECKOUT cases in test-cases.md, add pages/checkout_page.py and
+tests/test_checkout.py — one test per matrix case. The matrix marks the cases blocked by
+the unresponsive "Proceed to Checkout" button (verify only on the fixed build); note those
+in comments.
+
+List the tests you created and the test-case ID each covers.
 ```
 
 ---
@@ -93,5 +95,5 @@ the React Native build (same bundle id) and run again. Explain any element-type
 differences you had to account for, and confirm the accessibility-id locators held.
 ```
 
-**Expected:** the full suite green on both builds against the fixed app; the bug tests red
-on broken. Compare run time and setup effort with Maestro — you'll use this in Section 11.
+**Expected:** the suite runs on both builds; the bug tests are red on broken. Compare run
+time and setup effort with Maestro — you'll use this in Section 11.

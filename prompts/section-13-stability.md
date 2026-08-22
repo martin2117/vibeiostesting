@@ -38,9 +38,12 @@ Walk through one real failure in each.
 *Used in: Section 13, Clip 3*
 
 ```
-Install the fixed builds (techshop/swiftui-fixed and techshop/reactnative-fixed) and run
-all three suites against them. Everything should pass, including the checkout tests that
-were blocked by BUG-011. Report anything still red.
+Switch from the broken build to the FIXED build. Both use the same bundle id
+(com.techshop.ios), so only one can be installed at a time: uninstall the broken app from
+the Simulator first, then install the fixed build (techshop/swiftui-fixed or
+techshop/reactnative-fixed) — a clean replace. Run all three suites against it. Everything
+should pass, including the checkout tests that were blocked by BUG-011. Report anything
+still red.
 ```
 
 ## Prompt 4: Close the loop

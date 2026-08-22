@@ -2,15 +2,16 @@
 
 > 📖 **Guide:** [XCUITest suite](../docs/s10-xcuitest.md) · builds into `xcuitest/`
 
-You build the native XCUITest suite (Swift) yourself, using the same test matrix and the
-**test-authoring skill**. XCUITest has the deepest access to the accessibility tree and is
-the fastest to execute — the trade-off is that it is iOS-only.
+You build the native XCUITest suite (Swift) from the same **test matrix** (`test-cases.md`)
+and the **test-authoring skill**. XCUITest has the deepest access to the accessibility tree
+and is the fastest to execute — the trade-off is that it is iOS-only. You run and triage the
+suite in Section 12.
 
 ## Course reference
 | Prompt | Used in clip |
 |--------|-------------|
-| Prompt 1 — Base test case + login test | **10, Clip 2** |
-| Prompt 2 — Cart tests | **10, Clip 3** |
+| Prompt 1 — Base test case + login tests | **10, Clip 2** |
+| Prompt 2 — Cart & catalog tests | **10, Clip 3** |
 | Prompt 3 — Checkout tests | **10, Clip 3** |
 | Prompt 4 — The React Native reality | **10, Clip 4** |
 
@@ -20,11 +21,15 @@ the fastest to execute — the trade-off is that it is iOS-only.
 
 ---
 
-## Prompt 1: Base test case + login test
+## Prompt 1: Base test case + login tests
 *Used in: Section 10, Clip 2*
 
 ```
-Following skills/test-authoring.md, create the XCUITest base and login tests under
+First make sure the BROKEN build is installed on the Simulator — com.techshop.ios from
+techshop/reactnative-broken or techshop/swiftui-broken (the version with the planted bugs),
+not the fixed build.
+
+Then, following skills/test-authoring.md, create the XCUITest base under
 xcuitest/TechShopUITests/:
 
 - TechShopUITestCase.swift — base XCTestCase that launches
@@ -32,24 +37,30 @@ xcuitest/TechShopUITests/:
   from ProcessInfo, and provides framework-agnostic helpers: el(id) via
   descendants(matching:.any), hasText, a passwordField() that returns the secure OR plain
   field, login(), and addItemAndOpenCart(). Locate the login button by the label "Log In".
-- LoginUITests.swift — valid login reaches the catalog; BUG-002 empty rejected;
-  BUG-003 wrong rejected; BUG-001 assert app.secureTextFields["login-password"] exists;
-  BUG-016 assert app.buttons["login-submit"] exists.
+
+Then, from the LOGIN cases in test-cases.md, create LoginUITests.swift — one test per login
+case in the matrix, no more and no less. Include the secure-entry and login-button-identifier
+cases the matrix assigns to native/attribute-aware frameworks (use app.secureTextFields to
+prove masking). Read the matrix for what each case asserts.
+
+List the tests you created and the test-case ID each covers.
 ```
 
-**Expected:** run with `xcodebuild test -scheme TechShop -destination 'platform=iOS Simulator,name=iPhone 16'` (with TEST_EMAIL/TEST_PASSWORD exported).
+**Expected:** the base plus one login test per matrix case. Run with
+`xcodebuild test -scheme TechShop -destination 'platform=iOS Simulator,name=iPhone 16'`
+(with TEST_EMAIL/TEST_PASSWORD exported).
 
 ---
 
-## Prompt 2: Cart tests
+## Prompt 2: Cart & catalog tests
 *Used in: Section 10, Clip 3*
 
 ```
-Add CartUITests.swift and GeneralUITests.swift using the base helpers:
-- BUG-005 quantity never below 1 (assert el("qty-p1").label == "1").
-- BUG-006 total updates (label contains "60" then "120").
-- BUG-004 SAVE10 -> total contains "54".
-- BUG-015 no cartTab before auth; BUG-014 catalog title is not "Untitled".
+Following the skill and the CART and CATALOG cases in test-cases.md, add CartUITests.swift
+and GeneralUITests.swift using the base helpers — one test per matrix case. Read the matrix
+for what each case asserts (e.g. el("qty-p1").label, a total label, a discounted total).
+
+List the tests you created and the test-case ID each covers.
 ```
 
 ---
@@ -58,13 +69,12 @@ Add CartUITests.swift and GeneralUITests.swift using the base helpers:
 *Used in: Section 10, Clip 3*
 
 ```
-Add CheckoutUITests.swift:
-- testProceedOpensCheckout — BUG-011 (catches the blocker on broken).
-- testEmptyCheckoutRejected — BUG-012 (fixed build).
-- testConfirmationHasOrderReference — BUG-013 (fixed build): fill all fields with valid
-  data (future expiry, 16-digit card, 3-digit CVV), submit, assert "Order Confirmed" and
-  el("confirmation-order-ref").
-Comment which run on the fixed build only and why.
+Following the skill and the CHECKOUT cases in test-cases.md, add CheckoutUITests.swift —
+one test per matrix case. The matrix marks the cases blocked by the unresponsive "Proceed
+to Checkout" button (verify only on the fixed build); comment which run on the fixed build
+only and why.
+
+List the tests you created and the test-case ID each covers.
 ```
 
 ---

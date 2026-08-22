@@ -2,64 +2,61 @@
 
 > 📖 **Guide:** [Maestro flows](../docs/s08-maestro.md) · builds into `maestro/`
 
-You build the Maestro flow suite yourself, flow by flow, using the **test-authoring skill**
-(Section 5) and the test matrix (Section 7). Point the Simulator at the **broken** build so
-the bug flows fail, then the **fixed** build for the regression pass in Section 13.
+You build the Maestro flow suite yourself, feature by feature, from the **test matrix**
+(`test-cases.md`, Section 7) using the **test-authoring skill** (Section 5). Point the
+Simulator at the **broken** build. You *run and triage* the whole suite in Section 12 —
+here you just author it.
 
 ## Course reference
 | Prompt | Used in clip |
 |--------|-------------|
-| Prompt 1 — Login flow + reusable subflow | **8, Clip 2** |
-| Prompt 2 — Cart flows | **8, Clip 3** |
+| Prompt 1 — Login flows + reusable subflow | **8, Clip 2** |
+| Prompt 2 — Cart & catalog flows | **8, Clip 3** |
 | Prompt 3 — Checkout flows | **8, Clip 3** |
 | Prompt 4 — One flow, two apps | **8, Clip 4** |
 
 ---
 
-## Prompt 1: Login flow + reusable subflow
+## Prompt 1: Login flows + reusable subflow
 *Used in: Section 8, Clip 2*
 
 ```
-Following skills/test-authoring.md, build the Maestro login flows for TechShop iOS
-(appId com.techshop.ios):
+First make sure the BROKEN build is installed on the Simulator — com.techshop.ios from
+techshop/reactnative-broken or techshop/swiftui-broken (the version with the planted bugs),
+not the fixed build.
 
-- maestro/subflows/login.yaml — a reusable valid login. Locate the button by the text
-  "Log In" (no id in the broken build). Parameterise creds with ${EMAIL}/${PASSWORD}.
-- maestro/flows/login-happy.yaml — launch fresh, run the login subflow, assert the
-  catalog was reached (a product name, not the title).
-- maestro/flows/login-empty.yaml — BUG-002: submit empty, assert we did NOT reach the
-  catalog and are still on login.
-- maestro/flows/login-wrong.yaml — BUG-003: wrong credentials, assert not reached.
+Then, following skills/test-authoring.md and the LOGIN cases in test-cases.md, build the
+Maestro login flows for TechShop iOS (appId com.techshop.ios). Read the matrix to decide
+which flows to write and what each one asserts — cover exactly the login cases I designed,
+no more and no less. Put a reusable valid login in maestro/subflows/login.yaml and one
+flow per case under maestro/flows/.
 
-Then tell me which planted login bug each flow targets.
+Then list the flows you created and the test-case ID each one covers.
 ```
 
-**Expected:** three flows + one subflow. Run them: `maestro test maestro/flows/login-empty.yaml -e EMAIL=$TEST_EMAIL -e PASSWORD=$TEST_PASSWORD`.
+**Expected:** a login subflow plus one flow per login case in the matrix. Run the folder:
+`maestro test maestro/flows/ -e EMAIL=$TEST_EMAIL -e PASSWORD=$TEST_PASSWORD`.
 
 ---
 
-## Prompt 2: Cart flows
+## Prompt 2: Cart & catalog flows
 *Used in: Section 8, Clip 3*
 
 ```
-Following skills/test-authoring.md and reusing subflows/login.yaml, build the cart flows
-under maestro/flows/:
+Following skills/test-authoring.md and reusing subflows/login.yaml, build the CART and
+CATALOG flows from test-cases.md — one flow per matrix case, under maestro/flows/. Read the
+matrix for what each case asserts; use id: locators for the stepper/total/discount and
+assertVisible with a text regex for values.
 
-- cart-quantity-min.yaml — BUG-005: add p1, open the Cart tab, decrement at qty 1,
-  assert qty stays "1".
-- cart-total-updates.yaml — BUG-006: p1 is 60; assert total shows 60, increment to qty 2,
-  assert total shows 120.
-- cart-discount.yaml — BUG-004: apply SAVE10 to a $60 cart, assert total shows 54.
-- tabbar-before-auth.yaml — BUG-015: on launch (before login) assert the Cart tab is not
-  visible.
-- catalog-title.yaml — BUG-014: after login assert "Untitled" is NOT shown.
+If the matrix contains a case Maestro cannot assert (it can't read a secure-entry attribute
+or a colour), say so and skip it here — note that it belongs to Appium/XCUITest.
 
-Use id: locators for stepper/total/discount, and assertVisible with a text regex for the
-total.
+List the flows you created and the test-case ID each covers.
 ```
 
-**Expected:** five flows. On the broken build they fail (bugs caught); note that Maestro
-cannot assert BUG-001 (secure entry) or BUG-008 (colour) — those wait for Appium/XCUITest.
+**Expected:** one flow per cart/catalog case in the matrix. Maestro can't do the
+secure-entry or colour cases — it should flag those for Appium/XCUITest rather than writing
+a weak assertion.
 
 ---
 
@@ -67,20 +64,15 @@ cannot assert BUG-001 (secure entry) or BUG-008 (colour) — those wait for Appi
 *Used in: Section 8, Clip 3*
 
 ```
-Following skills/test-authoring.md, build the checkout flows under maestro/flows/:
+Following skills/test-authoring.md, build the CHECKOUT flows from test-cases.md — one flow
+per matrix case, under maestro/flows/. The matrix marks which checkout cases are blocked by
+the unresponsive "Proceed to Checkout" button (they can only be verified on the fixed
+build) — respect those markings and explain the dependency in the flow.
 
-- checkout-proceed.yaml — BUG-011: add p1, open Cart, tap Proceed to Checkout, assert the
-  Checkout screen appears. This is the flow that CATCHES the blocker on the broken build.
-- checkout-empty.yaml — BUG-012 (fixed build): reach checkout, submit empty, assert a
-  validation error and that no order was placed.
-- confirmation-orderref.yaml — BUG-013 (fixed build): complete a valid purchase, assert
-  "Order Confirmed" and that the order reference element is present.
-
-Mark the two that only run on the fixed build (BUG-011 blocks checkout on broken) and
-explain why.
+List the flows you created and the test-case ID each covers.
 ```
 
-**Expected:** three flows; the blocker dependency is documented in the flows themselves.
+**Expected:** one flow per checkout case; the blocker dependency is documented in the flows.
 
 ---
 
@@ -88,9 +80,9 @@ explain why.
 *Used in: Section 8, Clip 4*
 
 ```
-Without changing any flow, run maestro/flows/login-happy.yaml against the SwiftUI build,
-then reinstall the React Native build (same bundle id) and run it again. Explain why the
-identical flow works on both, and where in the accessibility tree the two apps differ.
+Without changing any flow, run your login happy-path flow against the SwiftUI build, then
+reinstall the React Native build (same bundle id) and run the same flow again. Explain why
+the identical flow works on both, and where in the accessibility tree the two apps differ.
 ```
 
 **Expected:** the same YAML passes on both builds — the payoff of stable accessibility ids.

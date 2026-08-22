@@ -84,6 +84,15 @@ npx expo start --ios      # boots the Simulator and installs the app
 
 **Test credentials:** `demo@techshop.com` / `password123`
 
+> **One build at a time — reinstall when you switch.** All four builds (SwiftUI/React
+> Native × broken/fixed) share the bundle id `com.techshop.ios`, so only one can be
+> installed on the Simulator at once. Whenever you switch — **broken → fixed** for the
+> Section 13 regression, or SwiftUI ↔ React Native — **uninstall the current app first (or
+> reinstall over it)** so you're actually running the build you think you are. The test
+> suites relaunch the app fresh on every test, so in-run state is handled for you; this is
+> only about *which build* is installed. For **Section 4 exploration**, start from a clean
+> install of the **broken** build.
+
 The **same 15 bugs** are planted in both builds, so a Maestro/Appium suite you write once
 runs against both — and you get to watch it behave differently under the hood.
 

@@ -6,6 +6,10 @@ The agent drives the Simulator via the mobile MCP and explores the app *before a
 exists*. You capture what it finds into `exploration-notes.md` — the raw material for the
 test matrix in Section 7.
 
+> **Explore the BROKEN build** (`techshop/reactnative-broken` or `techshop/swiftui-broken`) —
+> that is the version with the planted bugs. Start from a **clean install** (Prompt 1
+> handles this) so you're exploring the pristine buggy app, not a modified or stateful copy.
+
 ## Course reference
 | Prompt | Used in clip |
 |--------|-------------|
@@ -20,7 +24,12 @@ test matrix in Section 7.
 *Used in: Section 4, Clip 2*
 
 ```
-Using the mobile MCP, drive the TechShop login screen. Try: a valid login
+First, make sure the app under test is the BROKEN build — techshop/reactnative-broken
+(or techshop/swiftui-broken), NOT the fixed build. Install a clean, fresh copy: uninstall
+any existing com.techshop.ios from the Simulator, then reinstall the broken build and
+launch it, so we explore the pristine buggy version with no leftover state.
+
+Then, using the mobile MCP, drive the TechShop login screen. Try: a valid login
 (demo@techshop.com / password123), an empty submit, and a wrong password. After each,
 describe what actually happened (which screen, any error) and list the accessibility
 identifiers of every field and button you interacted with. Do not write any test yet.
@@ -51,8 +60,7 @@ does nothing when tapped, record exactly that.
 ```
 Read techshop/requirements.md. Compare it to exploration-notes.md and list: which
 requirements you have observed, which you have not exercised yet, and any behaviour that
-contradicts the spec. Do not call anything a bug yet — just flag mismatches for the test
-design in Section 7.
+contradicts the spec.
 ```
 
 **Expected:** a populated `exploration-notes.md` and a coverage list — the input to the

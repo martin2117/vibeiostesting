@@ -2,17 +2,15 @@
 
 > 📖 **Guide:** [How Skills Work](../docs/s05-how-skills-work.md)
 
-The centerpiece. Each prompt creates one reusable skill file in `skills/`, then a
-follow-up prompt proves it works. You keep these skills and reuse them for the rest of the
-course — across all three frameworks.
+The centerpiece. Each prompt creates one reusable skill file in `skills/`. You keep these
+skills and reuse them for the rest of the course — across all three frameworks. We build
+them here; we put them to work from Section 7 on.
 
 ## Course reference
 | Prompt | Used in clip |
 |--------|-------------|
 | Prompt 1 — Build the test-case-design skill | **5, Clip 2** |
-| Prompt 1b — Try it | **5, Clip 2** |
 | Prompt 2 — Build the test-authoring skill | **5, Clip 3** |
-| Prompt 2b — Try it | **5, Clip 3** |
 | Prompt 3 — Build the bug-reporting skill | **5, Clip 4** |
 | Prompt 4 — Build the flake-triage skill | **5, Clip 5** |
 
@@ -27,14 +25,16 @@ course — across all three frameworks.
 ```
 Create a reusable skill file at skills/test-case-design.md.
 
-Purpose: given a mobile feature and my exploration notes, produce a complete test
-matrix. Write it as instructions YOU (the agent) follow whenever I ask you to design
+Purpose: given a mobile feature (login, catalog, cart, or checkout) plus my exploration
+notes in exploration-notes.md and the spec in techshop/requirements.md, produce a complete
+test matrix. Write it as instructions YOU (the agent) follow whenever I ask you to design
 test cases. It must require:
 
 - THREE categories per feature: Positive, Negative, Edge (boundaries).
 - A consistent per-case format: ID, behavioural title, category, preconditions,
   steps, expected result.
-- Coverage tied to the real app: use exploration-notes.md, not generic guesses.
+- Coverage tied to the real app: use exploration-notes.md and techshop/requirements.md,
+  not generic guesses.
 - For each case, note the LOCATOR it will need (accessibility id or visible text),
   and flag any control with NO stable id as a testability defect.
 - Flag any known bug as a planned regression case with its BUG-id, and note cases
@@ -42,17 +42,6 @@ test cases. It must require:
 
 Keep it concise and instructional. This file is the standard, not an example.
 ```
-
-## Prompt 1b: Try the Test-Case Design Skill
-*Used in: Section 5, Clip 2*
-
-```
-Following skills/test-case-design.md exactly, and using exploration-notes.md, design
-the test cases for the LOGIN feature only. Output the matrix so I can review it.
-```
-
-**Expected:** a positive/negative/edge matrix in the skill's format, with locators noted
-and known login bugs flagged. If it drifts from the format, fix the skill, not the output.
 
 ---
 
@@ -64,8 +53,9 @@ Create a reusable skill file at skills/test-authoring.md.
 
 Purpose: turn test cases into clean MOBILE tests to a consistent standard, in whichever
 framework I name (Maestro, Appium, or XCUITest). Write it as instructions you follow
-whenever I ask you to write tests. It must require:
+whenever I ask you to write tests.
 
+UNIVERSAL RULES (all three frameworks):
 - LOCATORS: prefer stable accessibility identifiers (SwiftUI accessibilityIdentifier /
   React Native testID). Use visible text only when no id exists; if a key control has
   no id, recommend adding one. Never locate by position or index.
@@ -78,26 +68,43 @@ whenever I ask you to write tests. It must require:
 - CROSS-BUILD: the same test must run against the SwiftUI and React Native builds
   (same bundle id) — so the login button is located by the text "Log In" (it has no
   id in the broken build).
-- Per-framework notes for Maestro (YAML flows + subflows), Appium (pytest + Page
-  Objects), and XCUITest (Swift base XCTestCase + helpers).
-- A note that Maestro can't read hidden attributes (secure-entry, colour) — defer
-  those cases to Appium/XCUITest rather than writing a weak assertion.
+- HONESTY: Maestro can't read hidden attributes (secure-entry, colour) — defer those
+  cases to Appium/XCUITest rather than writing a weak assertion.
 
-Keep it concise. This is the rulebook the suites are built on.
+Then a dedicated BEST-PRACTICES section for each framework:
+
+MAESTRO (YAML flows):
+- One .yaml flow per behaviour under maestro/flows/; reusable steps (login, add-to-cart)
+  in maestro/subflows/, called with runFlow. Set appId: com.techshop.ios at the top.
+- Locate with `id:` (accessibility id) or visible text; assert with assertVisible /
+  assertNotVisible; check a value with a text regex, e.g. ".*120.*".
+- Parameterise credentials with ${EMAIL} / ${PASSWORD}, passed at runtime with -e.
+- launchApp with clearState:true for isolation. Prefer extendedWaitUntil over any fixed
+  wait. Keep flows declarative — no logic. If a check needs an attribute Maestro can't
+  read (secure-entry, colour), say so and hand that case to Appium/XCUITest.
+
+APPIUM (Python + pytest, Page Object Model):
+- conftest.py holds the driver fixture (automationName XCUITest, bundle id, fresh launch
+  per test, creds from env). One page object per screen under pages/; tests under tests/;
+  shared flows in a flows.py helper — never copy-pasted setup. Add pytest.ini.
+- Locate with AppiumBy.ACCESSIBILITY_ID; use an iOS predicate string for text. Read
+  attributes when a case needs it (e.g. password field type ==
+  XCUIElementTypeSecureTextField for BUG-001).
+- Waits: WebDriverWait + expected_conditions — never time.sleep. Keep page objects thin
+  (locators + actions); assertions live in the tests.
+
+XCUITEST (Swift, in Xcode):
+- A base XCTestCase launches XCUIApplication(bundleIdentifier:), reads creds from
+  ProcessInfo, and holds shared helpers: login(), addItemAndOpenCart(), and a
+  type-agnostic el(id) via descendants(matching:.any). One test class per feature.
+- Locate by identifier; use app.secureTextFields vs app.textFields to prove masking.
+- Waits: waitForExistence(timeout:) — never sleep(). The recorder is a starting point,
+  not the source of truth: rewrite its convenient (position-based) locators to
+  identifiers before you keep them.
+
+Keep each section tight and instructional. This is the rulebook the suites are built on
+in Sections 8, 9, and 10.
 ```
-
-## Prompt 2b: Try the Test-Authoring Skill
-*Used in: Section 5, Clip 3*
-
-```
-Following skills/test-authoring.md, write the Maestro login flow from the login test
-cases we designed. Put it at maestro/flows/login-happy.yaml with a reusable
-maestro/subflows/login.yaml. Then walk me through how it satisfies each rule.
-```
-
-**Expected:** clean id/text locators, a real assertion that the catalog was reached, a
-reusable login subflow, creds via `${EMAIL}`/`${PASSWORD}`. Review it with the Section 5
-checklist before trusting it. (This login flow is the one you read closely in Section 6.)
 
 ---
 
@@ -119,8 +126,7 @@ End with a self-check: "Could a developer reproduce this from the steps alone on
 clean Simulator?" If not, it is not done. Keep it concise and project-agnostic.
 ```
 
-**Note:** put this to work in Section 12. For now, build it and, if you have a failing
-test, feed one failure through it.
+**Note:** you put this skill to work in Section 12. For now, just build it.
 
 ---
 
