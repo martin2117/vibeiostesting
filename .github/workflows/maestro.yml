@@ -29,6 +29,7 @@ jobs:
 
       - name: Boot iPhone Simulator
         run: |
+          defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool true
           echo "Finding available iPhone simulator..."
           DEVICE_ID=$(xcrun simctl list devices available -j | jq -r '[.devices[][] | select(.isAvailable and (.name | contains("iPhone")))][0].udid')
           if [ -z "$DEVICE_ID" ] || [ "$DEVICE_ID" = "null" ]; then

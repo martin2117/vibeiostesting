@@ -1,6 +1,6 @@
 appId: com.techshop.ios
 ---
-# TC-LOG-004: Reject login with malformed email format (Requirement L2)
+# TC-LOG-003: Reject login with malformed email format (BUG-002)
 - launchApp:
     clearState: true
 
@@ -11,6 +11,8 @@ appId: com.techshop.ios
 - tapOn:
     id: "login-password"
 - inputText: ${PASSWORD || "password123"}
+
+- hideKeyboard
 
 - tapOn: "Log In"
 
