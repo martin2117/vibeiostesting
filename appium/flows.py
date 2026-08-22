@@ -29,7 +29,9 @@ def add_first_item_and_view_cart(driver, email=None, password=None):
         catalog_page = login_as_standard_user(driver, email=email, password=password)
     else:
         catalog_page = CatalogPage(driver)
-        if catalog_page.text_visible("Products", timeout=2):
+        if catalog_page.exists("tab-products", timeout=2):
+            catalog_page.click_id("tab-products")
+        elif catalog_page.text_visible("Products", timeout=2):
             catalog_page.click_by_label("Products")
         catalog_page.is_loaded(timeout=5)
 

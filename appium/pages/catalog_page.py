@@ -1,4 +1,4 @@
-from selenium.webdriver.support.ui import WebDriverWait
+import time
 from .base_page import BasePage
 
 
@@ -40,7 +40,6 @@ class CatalogPage(BasePage):
 
     def add_to_cart(self, product_id="p1"):
         """Taps the Add button for a specific product."""
-        import time
         elem = self.by_id(f"add-{product_id}", timeout=5)
         time.sleep(0.3)
         elem.click()
@@ -49,8 +48,20 @@ class CatalogPage(BasePage):
 
     def navigate_to_cart(self):
         """Taps the Cart tab in the tab bar."""
-        self.click_by_label(self.CART_TAB_LABEL)
-        self.exists("order-total", timeout=3)
+        if self.exists("tab-cart", timeout=2):
+            self.click_id("tab-cart")
+        else:
+            self.click_by_label(self.CART_TAB_LABEL)
+        self.exists("order-total", timeout=5)
+        return self
+
+    def navigate_to_products(self):
+        """Taps the Products tab in the tab bar."""
+        if self.exists("tab-products", timeout=2):
+            self.click_id("tab-products")
+        else:
+            self.click_by_label(self.PRODUCTS_TAB_LABEL)
+        self.is_loaded(timeout=5)
         return self
 
     def get_navigation_title(self, timeout=3):

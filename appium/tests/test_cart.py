@@ -103,7 +103,7 @@ def test_tc_cart_005_prevent_quantity_decrement_below_one(driver, test_credentia
     cart_page = CartPage(driver)
     cart_page.decrement_quantity("p1")
 
-    qty = cart_page.get_quantity("p1")
+    qty = cart_page.get_quantity("p1", timeout=5)
     assert qty == "1", f"BUG-005: Quantity decremented below 1 to '{qty}'"
 
 
