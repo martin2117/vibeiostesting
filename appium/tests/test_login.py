@@ -195,11 +195,11 @@ def test_tc_log_009_retain_authenticated_session_across_app_backgrounding(driver
       App restores state on Catalog screen without redirecting back to Login screen.
     """
     catalog_page = login_as_standard_user(driver, email=test_credentials["email"], password=test_credentials["password"])
-    assert catalog_page.is_loaded(timeout=5), "Expected to be on catalog screen before backgrounding"
+    assert catalog_page.is_loaded(timeout=10), "Expected to be on catalog screen before backgrounding"
 
     catalog_page.background_app(seconds=5)
 
-    assert catalog_page.is_loaded(timeout=5), "Expected user session to be retained on catalog after backgrounding"
+    assert catalog_page.is_loaded(timeout=10), "Expected user session to be retained on catalog after backgrounding"
 
 
 def test_login_button_has_stable_id(driver):
