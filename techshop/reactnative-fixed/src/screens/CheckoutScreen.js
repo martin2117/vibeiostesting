@@ -78,11 +78,12 @@ export default function CheckoutScreen({ navigation }) {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}
     >
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
+        keyboardDismissMode="on-drag"
       >
         <Text style={styles.heading}>Checkout</Text>
 
@@ -97,6 +98,7 @@ export default function CheckoutScreen({ navigation }) {
             autoCapitalize="none"
             value={form[f.key] || ''}
             onChangeText={(v) => update(f.key, v)}
+            onBlur={Keyboard.dismiss}
             returnKeyType={f.key === 'cvv' ? 'done' : 'next'}
             onSubmitEditing={f.key === 'cvv' ? onSubmit : undefined}
           />
