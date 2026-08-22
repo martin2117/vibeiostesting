@@ -47,11 +47,14 @@ class BasePage:
         except (TimeoutException, NoSuchElementException):
             return False
 
-    def type_into(self, accessibility_id, text, clear_first=True):
+    def type_into(self, accessibility_id, text, clear_first=False):
         """Locates an element by accessibility identifier and types text into it."""
         element = self.by_id(accessibility_id)
         if clear_first:
-            element.clear()
+            try:
+                element.clear()
+            except Exception:
+                pass
         element.send_keys(text)
         return element
 
