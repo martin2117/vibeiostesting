@@ -1,0 +1,39 @@
+appId: com.techshop.ios
+---
+# TC-CART-001: Add item from catalog and verify cart display and line totals
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+# Add Wireless Headphones ($60) to cart
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 5000
+
+# Assert cart item details and totals
+- assertVisible: "Wireless Headphones"
+- assertVisible:
+    id: "qty-p1"
+    text: ".*1.*"
+- assertVisible:
+    id: "line-total-p1"
+    text: ".*60.*"
+- assertVisible:
+    id: "order-total"
+    text: ".*60.*"

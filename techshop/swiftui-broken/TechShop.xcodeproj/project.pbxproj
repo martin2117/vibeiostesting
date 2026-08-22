@@ -1,0 +1,441 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		119C547692B720620979916F /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75EBD05C7E4B0E752C1D9F0D /* CheckoutView.swift */; };
+		2C05178978F43EDC79DA25AF /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304C04291A2852D825B65B85 /* RootView.swift */; };
+		5E32064DFD87040F05AA673B /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1324A115DB36BB409339E0E9 /* Store.swift */; };
+		73423F4977B5B2AB42AF0347 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7E1EA40B084BE077ABCE89 /* Models.swift */; };
+		74E1020A6FF4322E590B541B /* CheckoutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B6071327F2D93A0766009 /* CheckoutUITests.swift */; };
+		78312C29ABF81D6612CC6673 /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1127C261DD4902ABB1B49D /* LoginUITests.swift */; };
+		796FD67D4C1B9A4F7325FF42 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB22A523A2A81D2BA92F24B /* CartView.swift */; };
+		80914B1161F1054AD1B674AB /* TechShopApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355C115CC51E6EEB0E9247C3 /* TechShopApp.swift */; };
+		8FB36ABF233603F0B5E43162 /* GeneralUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B44222C315CE43E268CC6 /* GeneralUITests.swift */; };
+		BE71593F34D1E72D013CA2A0 /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728872C9D1F00DF53014AD75 /* ConfirmationView.swift */; };
+		C091C43B12C57152C00B1FA1 /* CartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6119F53D50205CF316D68303 /* CartUITests.swift */; };
+		DD6E590F09F5C7F3A95DAA35 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D1714B1B0C4F3A68661F7E /* LoginView.swift */; };
+		DD9B04E9DA900DFD96A707F1 /* TechShopUITestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B19266C7865D1C63B81EE3 /* TechShopUITestCase.swift */; };
+		DF340DEA3D24B4CE4E335B6A /* CatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE75B66CB344061CDC986649 /* CatalogView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0F1928E0DF01D519BE19C361 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F88DD8A79D9252B1922AE0C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4D094801ADAF75A4A8912B28;
+			remoteInfo = TechShop;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		012B44222C315CE43E268CC6 /* GeneralUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralUITests.swift; sourceTree = "<group>"; };
+		0A7E1EA40B084BE077ABCE89 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		0BB22A523A2A81D2BA92F24B /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		1324A115DB36BB409339E0E9 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
+		304C04291A2852D825B65B85 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		355C115CC51E6EEB0E9247C3 /* TechShopApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechShopApp.swift; sourceTree = "<group>"; };
+		6119F53D50205CF316D68303 /* CartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartUITests.swift; sourceTree = "<group>"; };
+		63377832B34113B95A6A31B6 /* TechShop.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TechShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		728872C9D1F00DF53014AD75 /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
+		75EBD05C7E4B0E752C1D9F0D /* CheckoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutView.swift; sourceTree = "<group>"; };
+		78B19266C7865D1C63B81EE3 /* TechShopUITestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechShopUITestCase.swift; sourceTree = "<group>"; };
+		80D1714B1B0C4F3A68661F7E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		8D1127C261DD4902ABB1B49D /* LoginUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUITests.swift; sourceTree = "<group>"; };
+		AA6B6071327F2D93A0766009 /* CheckoutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutUITests.swift; sourceTree = "<group>"; };
+		DB6941E9973833AD8009EB5F /* TechShopUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = TechShopUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE75B66CB344061CDC986649 /* CatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		6A966109A2447A7A231809FA /* TechShop */ = {
+			isa = PBXGroup;
+			children = (
+				0BB22A523A2A81D2BA92F24B /* CartView.swift */,
+				EE75B66CB344061CDC986649 /* CatalogView.swift */,
+				75EBD05C7E4B0E752C1D9F0D /* CheckoutView.swift */,
+				728872C9D1F00DF53014AD75 /* ConfirmationView.swift */,
+				80D1714B1B0C4F3A68661F7E /* LoginView.swift */,
+				0A7E1EA40B084BE077ABCE89 /* Models.swift */,
+				304C04291A2852D825B65B85 /* RootView.swift */,
+				1324A115DB36BB409339E0E9 /* Store.swift */,
+				355C115CC51E6EEB0E9247C3 /* TechShopApp.swift */,
+			);
+			path = TechShop;
+			sourceTree = "<group>";
+		};
+		8F18ED865C172E918E48C722 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63377832B34113B95A6A31B6 /* TechShop.app */,
+				DB6941E9973833AD8009EB5F /* TechShopUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A15792B59D24E129CB6E8899 /* TechShopUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6119F53D50205CF316D68303 /* CartUITests.swift */,
+				AA6B6071327F2D93A0766009 /* CheckoutUITests.swift */,
+				012B44222C315CE43E268CC6 /* GeneralUITests.swift */,
+				8D1127C261DD4902ABB1B49D /* LoginUITests.swift */,
+				78B19266C7865D1C63B81EE3 /* TechShopUITestCase.swift */,
+			);
+			name = TechShopUITests;
+			path = ../../xcuitest/TechShopUITests;
+			sourceTree = "<group>";
+		};
+		C9BC6A6CB92A695A57DAFA3C = {
+			isa = PBXGroup;
+			children = (
+				6A966109A2447A7A231809FA /* TechShop */,
+				A15792B59D24E129CB6E8899 /* TechShopUITests */,
+				8F18ED865C172E918E48C722 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		223573189D13EC908429C7AA /* TechShopUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91646ED9BEBFE7C4B7A70F6 /* Build configuration list for PBXNativeTarget "TechShopUITests" */;
+			buildPhases = (
+				3A847A336C3D005DDE616975 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D2D1920CD28EC1E885A5C58 /* PBXTargetDependency */,
+			);
+			name = TechShopUITests;
+			packageProductDependencies = (
+			);
+			productName = TechShopUITests;
+			productReference = DB6941E9973833AD8009EB5F /* TechShopUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		4D094801ADAF75A4A8912B28 /* TechShop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 146ED98EC4893BCC87FC93A2 /* Build configuration list for PBXNativeTarget "TechShop" */;
+			buildPhases = (
+				21ED19061E5F1B0D77DF87AA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TechShop;
+			packageProductDependencies = (
+			);
+			productName = TechShop;
+			productReference = 63377832B34113B95A6A31B6 /* TechShop.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F88DD8A79D9252B1922AE0C8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					223573189D13EC908429C7AA = {
+						TestTargetID = 4D094801ADAF75A4A8912B28;
+					};
+				};
+			};
+			buildConfigurationList = 8F34EAF11251EEFF4B38F215 /* Build configuration list for PBXProject "TechShop" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C9BC6A6CB92A695A57DAFA3C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8F18ED865C172E918E48C722 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4D094801ADAF75A4A8912B28 /* TechShop */,
+				223573189D13EC908429C7AA /* TechShopUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		21ED19061E5F1B0D77DF87AA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				796FD67D4C1B9A4F7325FF42 /* CartView.swift in Sources */,
+				DF340DEA3D24B4CE4E335B6A /* CatalogView.swift in Sources */,
+				119C547692B720620979916F /* CheckoutView.swift in Sources */,
+				BE71593F34D1E72D013CA2A0 /* ConfirmationView.swift in Sources */,
+				DD6E590F09F5C7F3A95DAA35 /* LoginView.swift in Sources */,
+				73423F4977B5B2AB42AF0347 /* Models.swift in Sources */,
+				2C05178978F43EDC79DA25AF /* RootView.swift in Sources */,
+				5E32064DFD87040F05AA673B /* Store.swift in Sources */,
+				80914B1161F1054AD1B674AB /* TechShopApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3A847A336C3D005DDE616975 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C091C43B12C57152C00B1FA1 /* CartUITests.swift in Sources */,
+				74E1020A6FF4322E590B541B /* CheckoutUITests.swift in Sources */,
+				8FB36ABF233603F0B5E43162 /* GeneralUITests.swift in Sources */,
+				78312C29ABF81D6612CC6673 /* LoginUITests.swift in Sources */,
+				DD9B04E9DA900DFD96A707F1 /* TechShopUITestCase.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0D2D1920CD28EC1E885A5C58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4D094801ADAF75A4A8912B28 /* TechShop */;
+			targetProxy = 0F1928E0DF01D519BE19C361 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		000261A4E89C636A2251CB74 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.techshop.TechShopUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TechShop;
+			};
+			name = Release;
+		};
+		358C66ED09E5F4390142F0FC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techshop.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		95EA3048574060D0234B5F99 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.techshop.TechShopUITests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TechShop;
+			};
+			name = Debug;
+		};
+		A3C6721D93485F3EC7B682BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		C71255D314DF6EA1E1A62943 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		E4BFE50FAB6FEC067356FC6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.techshop.ios;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		146ED98EC4893BCC87FC93A2 /* Build configuration list for PBXNativeTarget "TechShop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E4BFE50FAB6FEC067356FC6E /* Debug */,
+				358C66ED09E5F4390142F0FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F34EAF11251EEFF4B38F215 /* Build configuration list for PBXProject "TechShop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C71255D314DF6EA1E1A62943 /* Debug */,
+				A3C6721D93485F3EC7B682BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D91646ED9BEBFE7C4B7A70F6 /* Build configuration list for PBXNativeTarget "TechShopUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95EA3048574060D0234B5F99 /* Debug */,
+				000261A4E89C636A2251CB74 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F88DD8A79D9252B1922AE0C8 /* Project object */;
+}

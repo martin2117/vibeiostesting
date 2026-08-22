@@ -1,0 +1,37 @@
+appId: com.techshop.ios
+---
+# TC-LOG-009: Retain authenticated session across app backgrounding (Requirement L8)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+# Assert catalog reached
+- extendedWaitUntil:
+    visible:
+      id: "product-name-p1"
+    timeout: 5000
+
+- assertVisible:
+    id: "product-name-p1"
+
+# Send app to background and restore session
+- pressKey: Home
+
+- tapOn: "TechShop"
+
+# Assert user remains authenticated on the catalog screen
+- extendedWaitUntil:
+    visible:
+      id: "product-name-p1"
+    timeout: 5000
+
+- assertVisible:
+    id: "product-name-p1"
+
+- assertNotVisible:
+    id: "login-email"

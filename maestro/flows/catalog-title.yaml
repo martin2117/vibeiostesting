@@ -1,0 +1,20 @@
+appId: com.techshop.ios
+---
+# TC-CAT-001: Verify catalog navigation title displays "Products" (BUG-014)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "product-name-p1"
+    timeout: 5000
+
+# Assert navigation title is "Products" and NOT "Untitled"
+- assertVisible: "Products"
+- assertNotVisible: "Untitled"

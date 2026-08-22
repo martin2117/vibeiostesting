@@ -1,0 +1,22 @@
+appId: com.techshop.ios
+---
+# TC-LOG-001: Authenticate successfully with valid credentials
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+# Assert successful authentication by checking for catalog content and navigation
+- extendedWaitUntil:
+    visible:
+      id: "product-name-p1"
+    timeout: 5000
+
+- assertVisible:
+    id: "product-name-p1"
+
+- assertVisible: "Products"

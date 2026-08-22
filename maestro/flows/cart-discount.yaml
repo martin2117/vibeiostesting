@@ -1,0 +1,40 @@
+appId: com.techshop.ios
+---
+# TC-CART-004: Apply valid discount code SAVE10 for 10% discount deduction (BUG-004)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 5000
+
+- assertVisible:
+    id: "order-total"
+    text: ".*60.*"
+
+# Enter discount code SAVE10
+- tapOn:
+    id: "discount-input"
+- inputText: "SAVE10"
+
+# Assert order total updates to $54 ($60 - 10%)
+- assertVisible:
+    id: "order-total"
+    text: ".*54.*"

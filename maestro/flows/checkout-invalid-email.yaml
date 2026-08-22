@@ -1,0 +1,80 @@
+appId: com.techshop.ios
+---
+# TC-CHK-004: Reject checkout submission with invalid email format (Requirement CH4)
+#
+# DEPENDENCY NOTE:
+# This flow is BLOCKED on the broken build by BUG-011 ('Proceed to Checkout' is a no-op).
+# Runs on the fixed build to verify that malformed email addresses are rejected on checkout.
+
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+- tapOn:
+    id: "proceed-checkout"
+
+# Fill fields with malformed email
+- extendedWaitUntil:
+    visible:
+      id: "checkout-firstName"
+    timeout: 5000
+
+- tapOn:
+    id: "checkout-firstName"
+- inputText: "Jane"
+
+- tapOn:
+    id: "checkout-lastName"
+- inputText: "Doe"
+
+- tapOn:
+    id: "checkout-email"
+- inputText: "bademail"
+
+- tapOn:
+    id: "checkout-phone"
+- inputText: "1234567890"
+
+- tapOn:
+    id: "checkout-card"
+- inputText: "1111222233334444"
+
+- tapOn:
+    id: "checkout-expiry"
+- inputText: "12/29"
+
+- tapOn:
+    id: "checkout-cvv"
+- inputText: "123"
+
+- tapOn:
+    id: "checkout-submit"
+
+# Assert email validation error
+- assertVisible:
+    id: "checkout-error"
+
+- assertVisible: "Enter a valid email"
+
+- assertNotVisible:
+    id: "confirmation-title"

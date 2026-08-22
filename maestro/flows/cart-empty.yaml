@@ -1,0 +1,34 @@
+appId: com.techshop.ios
+---
+# TC-CART-008: Display empty cart state when no items are present (Requirement S6)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "product-name-p1"
+    timeout: 5000
+
+# Open Cart tab without adding products
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "cart-empty"
+    timeout: 5000
+
+# Assert empty cart message is displayed
+- assertVisible:
+    id: "cart-empty"
+
+- assertVisible: "Your cart is empty"
+
+# Assert checkout button is not rendered
+- assertNotVisible:
+    id: "proceed-checkout"

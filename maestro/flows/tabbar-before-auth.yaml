@@ -1,0 +1,14 @@
+appId: com.techshop.ios
+---
+# TC-LOG-008: Ensure tab bar navigation is hidden while unauthenticated (BUG-015)
+- launchApp:
+    clearState: true
+
+# Assert login form is visible
+- assertVisible:
+    id: "login-email"
+
+# Assert tab bar items (Products and Cart) are not visible while unauthenticated
+- assertNotVisible: "Products"
+
+- assertNotVisible: "Cart"

@@ -1,0 +1,40 @@
+appId: com.techshop.ios
+---
+# TC-CART-007: Reject invalid discount code without modifying order total (Requirement S7)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 5000
+
+- assertVisible:
+    id: "order-total"
+    text: ".*60.*"
+
+# Enter invalid discount code
+- tapOn:
+    id: "discount-input"
+- inputText: "INVALID99"
+
+# Assert order total remains unchanged at $60
+- assertVisible:
+    id: "order-total"
+    text: ".*60.*"

@@ -1,0 +1,25 @@
+appId: com.techshop.ios
+---
+# TC-LOG-006: Reject login with unregistered email (BUG-003)
+- launchApp:
+    clearState: true
+
+- tapOn:
+    id: "login-email"
+- inputText: "unregistered@techshop.com"
+
+- tapOn:
+    id: "login-password"
+- inputText: ${PASSWORD || "password123"}
+
+- tapOn: "Log In"
+
+# Assert user remains on Login screen and validation error is displayed
+- assertVisible:
+    id: "login-error"
+
+- assertVisible: "Invalid email or password"
+
+# Assert catalog was not reached
+- assertNotVisible:
+    id: "product-name-p1"

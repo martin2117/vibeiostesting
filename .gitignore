@@ -1,7 +1,10 @@
 # Secrets
 .env
+.env*
 *.env
 !.env.example
+report.xml
+*.xml
 
 # Node / React Native / Expo
 node_modules/

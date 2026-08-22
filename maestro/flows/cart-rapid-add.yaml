@@ -1,0 +1,43 @@
+appId: com.techshop.ios
+---
+# TC-CART-009: Register rapid consecutive taps on catalog Add button (Requirement S1)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+# Rapidly tap Add button 3 times
+- tapOn:
+    id: "add-p1"
+- tapOn:
+    id: "add-p1"
+- tapOn:
+    id: "add-p1"
+
+# Open Cart tab
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 5000
+
+# Assert quantity 3 and corresponding line total and order total $180
+- assertVisible:
+    id: "qty-p1"
+    text: ".*3.*"
+- assertVisible:
+    id: "line-total-p1"
+    text: ".*180.*"
+- assertVisible:
+    id: "order-total"
+    text: ".*180.*"

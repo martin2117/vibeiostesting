@@ -1,0 +1,25 @@
+appId: com.techshop.ios
+---
+# TC-LOG-004: Reject login with malformed email format (Requirement L2)
+- launchApp:
+    clearState: true
+
+- tapOn:
+    id: "login-email"
+- inputText: "invalidemail"
+
+- tapOn:
+    id: "login-password"
+- inputText: ${PASSWORD || "password123"}
+
+- tapOn: "Log In"
+
+# Assert user remains on Login screen and validation error is displayed
+- assertVisible:
+    id: "login-error"
+
+- assertVisible: "Enter a valid email address"
+
+# Assert catalog was not reached
+- assertNotVisible:
+    id: "product-name-p1"

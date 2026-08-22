@@ -1,0 +1,44 @@
+appId: com.techshop.ios
+---
+# TC-CHK-001: Navigate from Cart to Checkout screen via Proceed button (BUG-011)
+# Primary regression test for BUG-011 (Blocker on broken build).
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+# Add product to cart ($60 >= $10 minimum)
+- tapOn:
+    id: "add-p1"
+
+# Open Cart tab
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+# Tap Proceed to Checkout
+- tapOn:
+    id: "proceed-checkout"
+
+# Assert navigation to Checkout screen
+- extendedWaitUntil:
+    visible:
+      id: "checkout-firstName"
+    timeout: 5000
+
+- assertVisible:
+    id: "checkout-firstName"
+
+- assertVisible: "Checkout"

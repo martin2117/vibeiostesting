@@ -1,0 +1,11 @@
+appId: com.techshop.ios
+---
+- tapOn:
+    id: "login-email"
+- inputText: "${EMAIL}"
+- tapOn:
+    id: "login-password"
+- inputText: "${PASSWORD}"
+# The Log In button lacks an accessibilityIdentifier on the broken build (BUG-016).
+# Located by visible text "Log In" for cross-build compatibility.
+- tapOn: "Log In"

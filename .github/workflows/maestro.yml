@@ -1,0 +1,74 @@
+name: Maestro Tests
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  maestro:
+    name: Run Maestro Flows
+    runs-on: macos-14
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Boot iPhone Simulator
+        run: |
+          echo "Finding available iPhone simulator..."
+          DEVICE_ID=$(xcrun simctl list devices available -j | jq -r '.devices[] | map(select(.isAvailable and (.name | contains("iPhone")))) | .[0].udid')
+          if [ -z "$DEVICE_ID" ] || [ "$DEVICE_ID" = "null" ]; then
+            echo "No default iPhone simulator found, booting iPhone 15/16..."
+            xcrun simctl boot "iPhone 16" || xcrun simctl boot "iPhone 15" || true
+          else
+            echo "Booting device ID: $DEVICE_ID"
+            xcrun simctl boot "$DEVICE_ID" || true
+          fi
+          xcrun simctl bootstatus booted -b
+          echo "Simulator booted successfully."
+
+      - name: Install Maestro
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      - name: Build & Install TechShop App (React Native Fixed)
+        working-directory: techshop/reactnative-fixed
+        run: |
+          npm install
+          npx expo run:ios --configuration Release --no-bundler
+          xcrun simctl get_app_container booted com.techshop.ios
+
+      - name: Run Maestro Tests
+        env:
+          TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
+          TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+        run: |
+          maestro test maestro/flows/ \
+            -e EMAIL="$TEST_EMAIL" \
+            -e PASSWORD="$TEST_PASSWORD" \
+            --format junit \
+            --output maestro-report.xml
+
+      - name: Upload Maestro Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: maestro-test-report
+          path: |
+            maestro-report.xml
+            ~/.maestro/tests/**/*

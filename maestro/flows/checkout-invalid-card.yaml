@@ -1,0 +1,80 @@
+appId: com.techshop.ios
+---
+# TC-CHK-006: Reject checkout submission with non-16-digit card number (Requirement CH5)
+#
+# DEPENDENCY NOTE:
+# This flow is BLOCKED on the broken build by BUG-011 ('Proceed to Checkout' is a no-op).
+# Runs on the fixed build to verify that card numbers not having 16 digits are rejected.
+
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+- tapOn:
+    id: "proceed-checkout"
+
+# Fill fields with invalid 8-digit card
+- extendedWaitUntil:
+    visible:
+      id: "checkout-firstName"
+    timeout: 5000
+
+- tapOn:
+    id: "checkout-firstName"
+- inputText: "Jane"
+
+- tapOn:
+    id: "checkout-lastName"
+- inputText: "Doe"
+
+- tapOn:
+    id: "checkout-email"
+- inputText: "jane.doe@example.com"
+
+- tapOn:
+    id: "checkout-phone"
+- inputText: "1234567890"
+
+- tapOn:
+    id: "checkout-card"
+- inputText: "41112222"
+
+- tapOn:
+    id: "checkout-expiry"
+- inputText: "12/29"
+
+- tapOn:
+    id: "checkout-cvv"
+- inputText: "123"
+
+- tapOn:
+    id: "checkout-submit"
+
+# Assert card number validation error
+- assertVisible:
+    id: "checkout-error"
+
+- assertVisible: "Card number must be 16 digits"
+
+- assertNotVisible:
+    id: "confirmation-title"

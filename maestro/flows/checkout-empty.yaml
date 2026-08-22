@@ -1,0 +1,55 @@
+appId: com.techshop.ios
+---
+# TC-CHK-003: Reject checkout submission when required fields are empty (BUG-012)
+#
+# DEPENDENCY NOTE:
+# This flow tests form validation on the Checkout screen and is BLOCKED on the broken build
+# by BUG-011 (the 'Proceed to Checkout' button is an unresponsive no-op in CartView).
+# On the broken build, the flow fails to reach the Checkout screen. On the fixed build, it
+# verifies that empty submissions are rejected with validation error (BUG-012).
+
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+- tapOn:
+    id: "proceed-checkout"
+
+# Reach checkout and tap Place Order without filling fields
+- extendedWaitUntil:
+    visible:
+      id: "checkout-submit"
+    timeout: 5000
+
+- tapOn:
+    id: "checkout-submit"
+
+# Assert validation error is displayed and user remains on Checkout screen
+- assertVisible:
+    id: "checkout-error"
+
+- assertVisible: "All fields are required"
+
+# Assert confirmation screen was not reached
+- assertNotVisible:
+    id: "confirmation-title"

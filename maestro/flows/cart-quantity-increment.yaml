@@ -1,0 +1,45 @@
+appId: com.techshop.ios
+---
+# TC-CART-002: Increment item quantity and verify reactive order total calculation (BUG-006)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "order-total"
+    timeout: 5000
+
+- assertVisible:
+    id: "order-total"
+    text: ".*60.*"
+
+# Increment quantity of item p1
+- tapOn:
+    id: "qty-increment-p1"
+
+# Assert updated quantity and reactively updated totals
+- assertVisible:
+    id: "qty-p1"
+    text: ".*2.*"
+- assertVisible:
+    id: "line-total-p1"
+    text: ".*120.*"
+- assertVisible:
+    id: "order-total"
+    text: ".*120.*"

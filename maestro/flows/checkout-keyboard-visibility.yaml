@@ -1,0 +1,52 @@
+appId: com.techshop.ios
+---
+# TC-CHK-010: Ensure software keyboard does not obscure CVV input during entry (BUG-017)
+#
+# DEPENDENCY NOTE:
+# This flow tests keyboard scrolling behavior and is BLOCKED on the broken build by BUG-011
+# (the 'Proceed to Checkout' button is an unresponsive no-op in CartView).
+# On the fixed build, it verifies that the form scrolls inside a ScrollView so CVV and
+# Submit remain visible above the software keyboard (BUG-017).
+
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+- tapOn:
+    id: "proceed-checkout"
+
+# Focus on the CVV input near bottom of checkout form
+- extendedWaitUntil:
+    visible:
+      id: "checkout-cvv"
+    timeout: 5000
+
+- tapOn:
+    id: "checkout-cvv"
+
+# Assert CVV input and Submit button remain visible above keyboard
+- assertVisible:
+    id: "checkout-cvv"
+
+- assertVisible:
+    id: "checkout-submit"

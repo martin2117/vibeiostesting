@@ -1,0 +1,18 @@
+appId: com.techshop.ios
+---
+# TC-LOG-002: Reject login submission with empty email and password (BUG-002)
+- launchApp:
+    clearState: true
+
+# Submit without entering email or password
+- tapOn: "Log In"
+
+# Assert user remains on Login screen and validation error is displayed
+- assertVisible:
+    id: "login-error"
+
+- assertVisible: "Email and password are required"
+
+# Assert catalog was not reached
+- assertNotVisible:
+    id: "product-name-p1"

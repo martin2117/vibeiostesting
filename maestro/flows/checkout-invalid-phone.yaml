@@ -1,0 +1,80 @@
+appId: com.techshop.ios
+---
+# TC-CHK-005: Reject checkout submission with non-10-digit phone number (Requirement CH6)
+#
+# DEPENDENCY NOTE:
+# This flow is BLOCKED on the broken build by BUG-011 ('Proceed to Checkout' is a no-op).
+# Runs on the fixed build to verify that phone numbers of invalid length are rejected.
+
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+- tapOn:
+    id: "proceed-checkout"
+
+# Fill fields with invalid 5-digit phone
+- extendedWaitUntil:
+    visible:
+      id: "checkout-firstName"
+    timeout: 5000
+
+- tapOn:
+    id: "checkout-firstName"
+- inputText: "Jane"
+
+- tapOn:
+    id: "checkout-lastName"
+- inputText: "Doe"
+
+- tapOn:
+    id: "checkout-email"
+- inputText: "jane.doe@example.com"
+
+- tapOn:
+    id: "checkout-phone"
+- inputText: "12345"
+
+- tapOn:
+    id: "checkout-card"
+- inputText: "1111222233334444"
+
+- tapOn:
+    id: "checkout-expiry"
+- inputText: "12/29"
+
+- tapOn:
+    id: "checkout-cvv"
+- inputText: "123"
+
+- tapOn:
+    id: "checkout-submit"
+
+# Assert phone validation error
+- assertVisible:
+    id: "checkout-error"
+
+- assertVisible: "Phone must be 10 digits"
+
+- assertNotVisible:
+    id: "confirmation-title"

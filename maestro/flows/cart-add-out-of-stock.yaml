@@ -1,0 +1,33 @@
+appId: com.techshop.ios
+---
+# TC-CART-010: Block adding out-of-stock product to cart (BUG-008)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "badge-p4"
+    timeout: 5000
+
+# Tap disabled Add button for out of stock product
+- tapOn:
+    id: "add-p4"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "cart-empty"
+    timeout: 5000
+
+# Assert item was not added and cart remains empty
+- assertVisible:
+    id: "cart-empty"
+
+- assertVisible: "Your cart is empty"

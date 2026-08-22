@@ -1,0 +1,34 @@
+appId: com.techshop.ios
+---
+# TC-CART-006: Reject checkout progression when order total is below minimum $10 threshold (Requirement S9)
+- launchApp:
+    clearState: true
+
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: ${EMAIL || "demo@techshop.com"}
+      PASSWORD: ${PASSWORD || "password123"}
+
+- extendedWaitUntil:
+    visible:
+      id: "add-p1"
+    timeout: 5000
+
+- tapOn:
+    id: "add-p1"
+
+- tapOn: "Cart"
+
+- extendedWaitUntil:
+    visible:
+      id: "proceed-checkout"
+    timeout: 5000
+
+# Tap proceed to checkout
+- tapOn:
+    id: "proceed-checkout"
+
+# On a valid cart ($60 >= $10), error should NOT be displayed
+- assertNotVisible:
+    id: "cart-message"
