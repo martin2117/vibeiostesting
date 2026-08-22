@@ -22,9 +22,8 @@ class LoginPage(BasePage):
         return self
 
     def enter_password(self, password):
-        """Types password into the password input field and dismisses keyboard with return key."""
-        text = f"{password}\n" if password and not password.endswith("\n") else password
-        self.type_into(self.PASSWORD_INPUT, text)
+        """Types password into the password input field."""
+        self.type_into(self.PASSWORD_INPUT, password)
         return self
 
     def tap_login_button(self):

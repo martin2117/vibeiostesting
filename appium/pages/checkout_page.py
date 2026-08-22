@@ -50,8 +50,7 @@ class CheckoutPage(BasePage):
         return self
 
     def enter_cvv(self, value):
-        text = f"{value}\n" if value and not value.endswith("\n") else value
-        self.type_into(self.CVV_INPUT, text)
+        self.type_into(self.CVV_INPUT, value)
         return self
 
     def fill_form(self, first_name="Jane", last_name="Doe", email="jane.doe@example.com",
