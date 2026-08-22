@@ -63,8 +63,13 @@ jobs:
       - name: Start Appium Server
         run: |
           appium --log appium.log &
-          timeout 30s bash -c 'until curl -s http://127.0.0.1:4723/status; do sleep 1; done'
-          echo "Appium server is up and listening."
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1:4723/status > /dev/null; then
+              echo "Appium server is up and listening."
+              break
+            fi
+            sleep 1
+          done
 
       - name: Run Appium Pytest Suite
         env:
