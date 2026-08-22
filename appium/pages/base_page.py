@@ -1,3 +1,4 @@
+import time
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -48,19 +49,24 @@ class BasePage:
             return False
 
     def type_into(self, accessibility_id, text, clear_first=False):
-        """Locates an element by accessibility identifier and types text into it."""
+        """Locates an element by accessibility identifier, ensures focus, and types text into it."""
         element = self.by_id(accessibility_id)
+        element.click()
+        time.sleep(0.2)
         if clear_first:
             try:
                 element.clear()
+                time.sleep(0.1)
             except Exception:
                 pass
         element.send_keys(text)
+        time.sleep(0.1)
         return element
 
     def click_id(self, accessibility_id, timeout=None):
         """Locates an element by accessibility identifier and clicks it."""
         element = self.by_id(accessibility_id, timeout=timeout)
+        time.sleep(0.1)
         element.click()
         return element
 
@@ -68,6 +74,7 @@ class BasePage:
         """Locates an element by visible label predicate and clicks it."""
         predicate = f'label == "{label}" OR name == "{label}"'
         element = self.by_predicate(predicate, timeout=timeout)
+        time.sleep(0.1)
         element.click()
         return element
 
