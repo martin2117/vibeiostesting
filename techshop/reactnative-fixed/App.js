@@ -34,8 +34,16 @@ function MainTabs() {
   return (
     <Tab.Navigator>
       {/* FIXED (BUG-014): the title is "Products". */}
-      <Tab.Screen name="Products" component={CatalogScreen} options={{ title: 'Products' }} />
-      <Tab.Screen name="Cart" component={CartStackScreen} options={{ headerShown: false }} />
+      <Tab.Screen
+        name="Products"
+        component={CatalogScreen}
+        options={{ title: 'Products', tabBarAccessibilityLabel: 'Products', tabBarTestID: 'tab-products' }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={CartStackScreen}
+        options={{ title: 'Cart', tabBarAccessibilityLabel: 'Cart', tabBarTestID: 'tab-cart', headerShown: false }}
+      />
     </Tab.Navigator>
   );
 }
