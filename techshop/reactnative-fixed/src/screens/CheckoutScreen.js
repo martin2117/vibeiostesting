@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Keyboard,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
 
@@ -45,7 +46,7 @@ export default function CheckoutScreen({ navigation }) {
     // FIXED (BUG-012): every field is required.
     for (const f of FIELDS) {
       if (!form[f.key] || !form[f.key].trim()) {
-        return `${f.label} is required`;
+        return 'All fields are required';
       }
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) return 'Enter a valid email';
@@ -59,6 +60,7 @@ export default function CheckoutScreen({ navigation }) {
   }
 
   function onSubmit() {
+    Keyboard.dismiss();
     const problem = validate();
     if (problem) {
       setError(problem);
@@ -76,8 +78,12 @@ export default function CheckoutScreen({ navigation }) {
     <KeyboardAvoidingView
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
     >
-      <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={styles.heading}>Checkout</Text>
 
         {FIELDS.map((f) => (
@@ -91,6 +97,8 @@ export default function CheckoutScreen({ navigation }) {
             autoCapitalize="none"
             value={form[f.key] || ''}
             onChangeText={(v) => update(f.key, v)}
+            returnKeyType={f.key === 'cvv' ? 'done' : 'next'}
+            onSubmitEditing={f.key === 'cvv' ? onSubmit : undefined}
           />
         ))}
 
@@ -110,7 +118,7 @@ export default function CheckoutScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  scroll: { padding: 16, paddingBottom: 60 },
+  scroll: { padding: 16, paddingBottom: 250 },
   heading: { fontSize: 22, fontWeight: '800', color: '#1a1442', marginBottom: 12 },
   input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, fontSize: 15, marginBottom: 10 },
   error: { color: '#c0392b', marginBottom: 10 },
