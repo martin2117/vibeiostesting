@@ -38,6 +38,8 @@ def driver():
     options.no_reset = False
     options.full_reset = False
     options.new_command_timeout = 120
+    options.set_capability("appium:maxTypingFrequency", 30)
+    options.set_capability("appium:connectHardwareKeyboard", True)
 
     app_driver = webdriver.Remote(command_executor=appium_server_url, options=options)
     # Ensure fresh process launch per test isolation rule

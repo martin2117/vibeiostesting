@@ -59,7 +59,10 @@ class BasePage:
                 time.sleep(0.1)
             except Exception:
                 pass
-        element.send_keys(text)
+        try:
+            element.set_value(text)
+        except Exception:
+            element.send_keys(text)
         time.sleep(0.1)
         return element
 
