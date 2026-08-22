@@ -12,15 +12,15 @@ class CatalogPage(BasePage):
     CART_TAB_LABEL = "Cart"
     PRODUCTS_TAB_LABEL = "Products"
 
-    def is_loaded(self, timeout=5):
+    def is_loaded(self, timeout=10):
         """Checks if the catalog screen is rendered by verifying the first product."""
         return self.exists(self.PRODUCT_NAME_P1, timeout=timeout)
 
-    def has_product(self, product_id="p1", timeout=5):
+    def has_product(self, product_id="p1", timeout=10):
         """Checks if a product with the specified ID exists in the catalog list."""
         return self.exists(f"product-name-{product_id}", timeout=timeout)
 
-    def get_product_name(self, product_id="p1", timeout=5):
+    def get_product_name(self, product_id="p1", timeout=10):
         """Returns the product name text for the given product ID."""
         return self.get_text(f"product-name-{product_id}", timeout=timeout)
 

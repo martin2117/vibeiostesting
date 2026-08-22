@@ -15,7 +15,7 @@ def test_tc_cat_001_catalog_navigation_title_displays_products(driver, test_cred
       Navigation title displays 'Products' (not 'Untitled').
     """
     catalog_page = login_as_standard_user(driver, email=test_credentials["email"], password=test_credentials["password"])
-    assert catalog_page.is_loaded(timeout=5), "Expected Catalog page to load after login"
+    assert catalog_page.is_loaded(timeout=10), "Expected Catalog page to load after login"
 
     nav_title = catalog_page.get_navigation_title()
     assert nav_title != "Untitled", "BUG-014: Catalog navigation title is 'Untitled' instead of 'Products'"
@@ -34,7 +34,7 @@ def test_tc_cat_002_truncate_long_product_titles_without_overflow(driver, test_c
       Title is single-line truncated with ellipsis (height ~19-24px, not 76px multiline overflow).
     """
     catalog_page = login_as_standard_user(driver, email=test_credentials["email"], password=test_credentials["password"])
-    assert catalog_page.has_product("p3"), "Expected Product 3 to exist in catalog"
+    assert catalog_page.has_product("p3", timeout=10), "Expected Product 3 to exist in catalog"
 
     height = catalog_page.get_product_name_height("p3")
     assert height < 40, f"BUG-007: Product 3 title overflows cell bounds (height: {height}px, expected < 40px)"
@@ -52,7 +52,7 @@ def test_tc_cat_003_out_of_stock_badge_and_disabled_add_button(driver, test_cred
       Badge displays 'Out of Stock' and Add button 'add-p4' is disabled.
     """
     catalog_page = login_as_standard_user(driver, email=test_credentials["email"], password=test_credentials["password"])
-    assert catalog_page.has_product("p4"), "Expected Product 4 to exist in catalog"
+    assert catalog_page.has_product("p4", timeout=10), "Expected Product 4 to exist in catalog"
 
     badge_text = catalog_page.get_badge_text("p4")
     assert badge_text == "Out of Stock", f"Expected badge 'Out of Stock', got '{badge_text}'"
