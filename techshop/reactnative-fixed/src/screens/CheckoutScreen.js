@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import {
+  View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  KeyboardAvoidingView,
   ScrollView,
-  Platform,
-  Keyboard,
 } from 'react-native';
 import { useCart } from '../context/CartContext';
 
@@ -60,7 +58,6 @@ export default function CheckoutScreen({ navigation }) {
   }
 
   function onSubmit() {
-    Keyboard.dismiss();
     const problem = validate();
     if (problem) {
       setError(problem);
@@ -72,18 +69,13 @@ export default function CheckoutScreen({ navigation }) {
     navigation.navigate('Confirmation', { orderRef, total });
   }
 
-  // FIXED (BUG-017): KeyboardAvoidingView + ScrollView keep the focused
-  // field (including CVV at the bottom) visible above the keyboard.
+  // FIXED (BUG-017): ScrollView keeps all fields and submit button scrollable
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 140 : 0}
-    >
+    <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="always"
-        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        automaticallyAdjustKeyboardInsets={true}
       >
         <Text style={styles.heading}>Checkout</Text>
 
@@ -98,9 +90,6 @@ export default function CheckoutScreen({ navigation }) {
             autoCapitalize="none"
             value={form[f.key] || ''}
             onChangeText={(v) => update(f.key, v)}
-            onBlur={Keyboard.dismiss}
-            returnKeyType={f.key === 'cvv' ? 'done' : 'next'}
-            onSubmitEditing={f.key === 'cvv' ? onSubmit : undefined}
           />
         ))}
 
@@ -114,13 +103,13 @@ export default function CheckoutScreen({ navigation }) {
           <Text style={styles.buttonText}>Place Order</Text>
         </TouchableOpacity>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff' },
-  scroll: { padding: 16, paddingBottom: 250 },
+  scroll: { padding: 16, paddingBottom: 60 },
   heading: { fontSize: 22, fontWeight: '800', color: '#1a1442', marginBottom: 12 },
   input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 10, padding: 12, fontSize: 15, marginBottom: 10 },
   error: { color: '#c0392b', marginBottom: 10 },
