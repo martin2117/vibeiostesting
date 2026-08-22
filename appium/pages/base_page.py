@@ -49,21 +49,18 @@ class BasePage:
             return False
 
     def type_into(self, accessibility_id, text, clear_first=False):
-        """Locates an element by accessibility identifier, ensures focus, and types text reliably."""
+        """Locates an element by accessibility identifier, ensures focus, and types text into it."""
         element = self.by_id(accessibility_id)
         element.click()
-        time.sleep(0.2)
+        time.sleep(0.15)
         if clear_first:
             try:
                 element.clear()
                 time.sleep(0.1)
             except Exception:
                 pass
-        try:
-            self.driver.execute_script("mobile: type", {"text": text, "elementId": element.id})
-        except Exception:
-            element.send_keys(text)
-        time.sleep(0.2)
+        element.send_keys(text)
+        time.sleep(0.15)
         return element
 
     def click_id(self, accessibility_id, timeout=None):
