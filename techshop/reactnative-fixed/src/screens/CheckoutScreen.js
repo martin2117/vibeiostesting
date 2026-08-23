@@ -88,6 +88,8 @@ export default function CheckoutScreen({ navigation }) {
             placeholder={f.label}
             keyboardType={f.keyboard}
             autoCapitalize="none"
+            autoCorrect={false}
+            spellCheck={false}
             value={form[f.key] || ''}
             onChangeText={(v) => update(f.key, v)}
           />

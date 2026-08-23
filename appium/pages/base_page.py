@@ -59,7 +59,9 @@ class BasePage:
                 time.sleep(0.1)
             except Exception:
                 pass
-        element.send_keys(text)
+        for char in str(text):
+            element.send_keys(char)
+            time.sleep(0.02)
         time.sleep(0.15)
         return element
 
