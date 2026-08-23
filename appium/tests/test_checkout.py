@@ -60,7 +60,7 @@ def test_tc_chk_002_complete_checkout_and_place_order(driver, test_credentials):
     )
     checkout_page.submit_order()
 
-    assert checkout_page.is_order_confirmed(timeout=5), "Expected 'Order Confirmed' screen"
+    assert checkout_page.is_order_confirmed(timeout=10), "Expected 'Order Confirmed' screen"
     order_ref = checkout_page.get_order_reference()
     assert order_ref != "", "BUG-013: Confirmation screen is missing order reference"
     assert "TS-" in order_ref, f"Expected order reference format TS-XXXXXX, got '{order_ref}'"

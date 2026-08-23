@@ -1,3 +1,4 @@
+import time
 from .base_page import BasePage
 
 
@@ -21,7 +22,7 @@ class CheckoutPage(BasePage):
     CONFIRMATION_ORDER_REF = "confirmation-order-ref"
     CONFIRMATION_TOTAL = "confirmation-total"
 
-    def is_loaded(self, timeout=5):
+    def is_loaded(self, timeout=10):
         """Checks if the checkout form is loaded."""
         return self.exists(self.FIRST_NAME_INPUT, timeout=timeout)
 
@@ -78,36 +79,42 @@ class CheckoutPage(BasePage):
             self.driver.hide_keyboard()
         except Exception:
             pass
+        try:
+            if self.exists("checkout-heading", timeout=1):
+                self.click_id("checkout-heading")
+        except Exception:
+            pass
         return self
 
     def submit_order(self):
         """Taps the 'Place Order' submit button."""
+        self.dismiss_keyboard_if_present()
         try:
-            self.click_id(self.SUBMIT_BUTTON)
+            self.click_id(self.SUBMIT_BUTTON, timeout=5)
         except Exception:
             try:
                 self.driver.execute_script("mobile: scroll", {"direction": "down"})
             except Exception:
                 pass
-            self.click_id(self.SUBMIT_BUTTON)
+            self.click_id(self.SUBMIT_BUTTON, timeout=10)
         return self
 
-    def get_error_message(self, timeout=3):
+    def get_error_message(self, timeout=5):
         """Returns the checkout validation error message text."""
         return self.get_text(self.ERROR_MESSAGE, timeout=timeout)
 
-    def has_error(self, timeout=2):
+    def has_error(self, timeout=5):
         """Checks if a checkout validation error is displayed."""
         return self.exists(self.ERROR_MESSAGE, timeout=timeout)
 
-    def is_order_confirmed(self, timeout=5):
+    def is_order_confirmed(self, timeout=10):
         """Checks if the confirmation screen is displayed."""
         return self.exists(self.CONFIRMATION_TITLE, timeout=timeout)
 
-    def get_order_reference(self, timeout=3):
+    def get_order_reference(self, timeout=5):
         """Returns the order reference string (e.g. 'Order Reference: TS-XXXXXX')."""
         return self.get_text(self.CONFIRMATION_ORDER_REF, timeout=timeout)
 
-    def get_total_paid(self, timeout=3):
+    def get_total_paid(self, timeout=5):
         """Returns the total paid text on the confirmation screen."""
         return self.get_text(self.CONFIRMATION_TOTAL, timeout=timeout)

@@ -77,7 +77,7 @@ export default function CheckoutScreen({ navigation }) {
         keyboardShouldPersistTaps="handled"
         automaticallyAdjustKeyboardInsets={true}
       >
-        <Text style={styles.heading}>Checkout</Text>
+        <Text testID="checkout-heading" style={styles.heading}>Checkout</Text>
 
         {FIELDS.map((f) => (
           <TextInput
