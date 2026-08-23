@@ -74,7 +74,7 @@ export default function CheckoutScreen({ navigation }) {
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
         automaticallyAdjustKeyboardInsets={true}
       >
         <Text testID="checkout-heading" style={styles.heading}>Checkout</Text>

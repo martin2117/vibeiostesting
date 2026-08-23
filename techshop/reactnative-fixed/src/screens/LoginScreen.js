@@ -26,7 +26,7 @@ export default function LoginScreen() {
     >
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="always"
       >
         <Text style={styles.brand}>TechShop</Text>
         <Text style={styles.subtitle}>Sign in to continue</Text>
