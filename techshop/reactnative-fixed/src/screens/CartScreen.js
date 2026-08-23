@@ -85,8 +85,6 @@ export default function CartScreen({ navigation }) {
           style={styles.discountInput}
           placeholder="Discount code"
           autoCapitalize="characters"
-          autoCorrect={false}
-          spellCheck={false}
           value={discountCode}
           onChangeText={setDiscountCode}
         />

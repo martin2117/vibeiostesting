@@ -26,7 +26,7 @@ export default function LoginScreen() {
     >
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="always"
+        keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.brand}>TechShop</Text>
         <Text style={styles.subtitle}>Sign in to continue</Text>
@@ -37,8 +37,6 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Email"
           autoCapitalize="none"
-          autoCorrect={false}
-          spellCheck={false}
           keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
@@ -51,8 +49,6 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Password"
           secureTextEntry={true}
-          autoCorrect={false}
-          spellCheck={false}
           value={password}
           onChangeText={setPassword}
           onSubmitEditing={onSubmit}

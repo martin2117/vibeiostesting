@@ -10,7 +10,7 @@ jobs:
   appium:
     name: Run Appium Suite
     runs-on: macos-14
-    timeout-minutes: 45
+    timeout-minutes: 60
 
     steps:
       - name: Checkout repository

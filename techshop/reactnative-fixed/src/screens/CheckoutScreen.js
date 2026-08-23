@@ -74,10 +74,10 @@ export default function CheckoutScreen({ navigation }) {
     <View style={styles.container}>
       <ScrollView
         contentContainerStyle={styles.scroll}
-        keyboardShouldPersistTaps="always"
+        keyboardShouldPersistTaps="handled"
         automaticallyAdjustKeyboardInsets={true}
       >
-        <Text testID="checkout-heading" style={styles.heading}>Checkout</Text>
+        <Text style={styles.heading}>Checkout</Text>
 
         {FIELDS.map((f) => (
           <TextInput
@@ -88,8 +88,6 @@ export default function CheckoutScreen({ navigation }) {
             placeholder={f.label}
             keyboardType={f.keyboard}
             autoCapitalize="none"
-            autoCorrect={false}
-            spellCheck={false}
             value={form[f.key] || ''}
             onChangeText={(v) => update(f.key, v)}
           />
